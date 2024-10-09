@@ -1,46 +1,169 @@
-# Getting Started with Create React App
+### 1\. Install `react-router-dom`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+If you haven't installed React Router yet, run this command in your project directory:
 
-## Available Scripts
+```plaintext
+npm install react-router-dom
+```
 
-In the project directory, you can run:
+### 2\. Set Up Routing in Your React App
 
-### `npm start`
+First, make sure you have components for your pages:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* `LoginPage`.tsx
+    
+* `ServicesPage.tsx`
+    
+* `AboutPage.tsx`
+    
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Example Code:
 
-### `npm test`
+#### 2.1 Create Components (If you haven’t already)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**LoginPage.tsx**
 
-### `npm run build`
+```plaintext
+import React from 'react';
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const LoginPage: React.FC = () => {
+  return <h2>This is the Login Page</h2>;
+};
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+export default LoginPage;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**ServicesPage.js**
 
-### `npm run eject`
+```plaintext
+import React from 'react';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+function ServicesPage() {
+  return <h2>This is the Services Page</h2>;
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export default ServicesPage;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**AboutPage.js**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```plaintext
+import React from 'react';
 
-## Learn More
+const AboutPage: React.FC = () => {
+  return <h2>This is the About Page</h2>;
+};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+export default AboutPage;
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 4 Create a Separate File for Routes
+
+Create a new file called `AppRoutes.tsx`nand define all your routes there.
+
+#### **app.routes.tsx**
+
+```plaintext
+import React from 'react';
+import {Route, Routes} from 'react-router-dom';
+import LoginPage from "./pages/LoginPage";
+import ServicesPage from "./pages/ServicesPage";
+import AboutPage from "./pages/AboutPage";
+
+interface RouteProps {
+    exact?: boolean;
+    path: string;
+    component: React.ComponentType<any>;
+}
+
+
+const AppRoutes: React.FC = () => {
+    return (
+        <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            {/* Default route */}
+            <Route path="/" element={<LoginPage />} />
+        </Routes>
+    );
+};
+
+export default AppRoutes;
+```
+
+### 4\. Use AppRoutes to App
+
+Now you can import `AppRoutes` into your main `App.tsx` file.
+
+#### **App.tsx**
+
+```plaintext
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './app.routes'; // Import your routes
+import { Link } from 'react-router-dom';
+
+const App: React.FC = () => {
+  return (
+      <div>
+        {/* Navigation */}
+        <nav>
+          <ul>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/services">Services</Link></li>
+            <li><Link to="/about">About</Link></li>
+          </ul>
+        </nav>
+
+        {/* Render Routes */}
+        <AppRoutes />
+      </div>
+  );
+};
+
+export default App;
+```
+
+### 3\. Explanation:
+
+* `app.routes.tsx`: Contains all your route definitions using the `Switch` and `Route` components.
+    
+* `App.tsx`: Now imports and uses the `AppRoutes` component to manage routing in a more organized and modular way.
+    
+
+### 5\. Default Route (Optional)
+
+You can add a default route to redirect the user to a specific page if they visit the root (`/`):
+
+```plaintext
+<Route exact path="/" component={LoginPage} />
+```
+
+### 6\. Running the App
+
+Start your development server:
+
+```plaintext
+npm start
+```
+
+Now, you can navigate to `/login`, `/services`, and `/about` to see each page.
+
+This is a basic routing setup for your React app with `login_page`, `services_page`, and `about_page`.
+
+**OUTPUT**
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1728351670448/8dd74ba4-6f3a-4c29-ad6b-5371bab27215.png)
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1728351685618/3cb75f0a-74fa-4a8a-b435-4075f83d03bb.png)
+
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1728351691224/c02b5b55-b7bf-4f3e-81e2-525f4181d227.png)
+
+**TEST:**
+
+[https://react-router-thirdy.web.app/login](https://react-router-thirdy.web.app/login)
+
+GITHUB:
+
+[thirdygayares/react-router (github.com)](https://github.com/thirdygayares/react-router)
